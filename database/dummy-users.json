@@ -1,0 +1,23 @@
+[
+  {
+    "_id": "000000000000000000000000",
+    "username": "bobuser",
+    "password": "baseball",
+    "email": "bob@foo.com",
+    "games": [
+      "111111111111111111111110",
+      "111111111111111111111111"
+    ],
+    "favorites": []
+  },
+  {
+    "_id": "000000000000000000000001",
+    "username": "sallyuser",
+    "password": "baseball",
+    "email": "sally@bar.com",
+    "games": [
+      "111111111111111111111112"
+    ],
+    "favorites": []
+  }
+]
