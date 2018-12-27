@@ -2,11 +2,12 @@
 
 const express = require('express');
 const graphqlHTTP = require('express-graphql');
+const mongoose = require('mongoose');
 
 const app = express();
 
-const { PORT } = require('./config');
-const { graphqlSchema } = require('./graphql_schema/game');
+const { PORT, DB_URL } = require('./config');
+const graphqlSchema = require('./graphql_schema/graphql');
 
 
 
@@ -21,6 +22,8 @@ app.get('', (req, res) => {
   res.json('Hello World');
 });
 
+
+mongoose.connect(DB_URL);
 
 
 app.listen(PORT, () => {
