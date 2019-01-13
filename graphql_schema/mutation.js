@@ -6,9 +6,10 @@ const {
   GraphQLString,
   GraphQLList
 } = require('graphql');
+const bcrypt = require('bcryptjs');
 
 const GameType = require('./game');
-const UserType = require('./user');
+const { UserType, validateCreateUser } = require('./user');
 const QuestionType = require('./question');
 
 const Game = require('../models/game');
@@ -31,6 +32,7 @@ const MutationType = new GraphQLObjectType({
         // Game.save();
       }
     },
+    
     createUser: {
       type: UserType,
       args: {
@@ -39,16 +41,27 @@ const MutationType = new GraphQLObjectType({
         email: {type: GraphQLString}
       },
       resolve (parents, args) {
-        return User.create({
-          username: args.username, 
-          password: args.password, 
-          email: args.email
-        })
+        validateCreateUser(args.username, args.password, args.email);
+        return bcrypt.genSalt(8)
+          .then(salt => bcrypt.hash(args.password, salt))
+          .then(encryptedPassword => {
+            return User.create({
+              username: args.username,
+              password: encryptedPassword, 
+              email: args.email
+            });
+          })
           .then(newUser => {
             return newUser;
           })
           .catch(err => {
-            console.log(err);
+            if (err.code === 11000) {
+              const e = new Error('That username or email already exists');
+              e.status = 400;
+              throw e;
+            } else {
+              throw err;
+            }
           });
       }
     }

@@ -11,21 +11,24 @@ const graphqlSchema = require('./graphql_schema/graphql');
 
 
 
-app.use('/graphql', graphqlHTTP({
+app.use('/graphql', graphqlHTTP(req => ({
   schema: graphqlSchema,
-  graphiql: true
-}));
+  graphiql: true,
+  formatError(err) {
+    console.error(err);
+    return {
+      message: err.message,
+      locations: err.locations,
+      path: err.path
+    };
+  }
+})));
 
 
 
-app.get('', (req, res) => {
-  res.json('Hello World');
-});
-
-
-mongoose.connect(DB_URL);
+mongoose.connect(DB_URL, {useNewUrlParser: true});
 
 
 app.listen(PORT, () => {
-  console.info(`Example app listening on port ${PORT}!`);
+  console.info(`Listening on port ${PORT}`);
 });
