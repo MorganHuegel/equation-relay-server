@@ -2,7 +2,7 @@
   {
     "_id": "000000000000000000000000",
     "username": "bobuser",
-    "password": "baseball",
+    "password": "$2a$08$4qxsAte.kCJSyyQYoUfB.uX3TSJmSfOFKDaRS.PV6sy79MLoJs5HK",
     "email": "bob@foo.com",
     "games": [
       "111111111111111111111110",
@@ -13,7 +13,7 @@
   {
     "_id": "000000000000000000000001",
     "username": "sallyuser",
-    "password": "baseball",
+    "password": "$2a$08$4qxsAte.kCJSyyQYoUfB.uX3TSJmSfOFKDaRS.PV6sy79MLoJs5HK",
     "email": "sally@bar.com",
     "games": [
       "111111111111111111111112"

@@ -14,7 +14,6 @@ userSchema.set('toObject', {
   versionKey: false,
   transform: (doc, ret) => {
     ret.id = doc._id;
-    delete ret.password;
     delete ret._id;
     return ret;
   }

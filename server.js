@@ -8,14 +8,15 @@ const cors = require('cors');
 const app = express();
 
 const { PORT, DB_URL } = require('./config');
-const graphqlSchema = require('./graphql_schema/graphql');
+const unprotectedGraphqlSchema = require('./unprotected_graphql_schema/graphql');
 
 app.use(cors());
 app.use(express.json());
 
+app.use('/graphql/protected', /* AUTHENTACTION HERE */(req, res, next) => next());
 
-app.use('/graphql', graphqlHTTP(req => ({
-  schema: graphqlSchema,
+app.use('/graphql/unprotected', graphqlHTTP(req => ({
+  schema: unprotectedGraphqlSchema,
   graphiql: true,
   formatError(err) {
     console.error(err);
