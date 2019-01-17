@@ -23,6 +23,12 @@ const UserType = new GraphQLObjectType({
       resolve(parent, args){
         return Game.find({userId: parent.id});
       }
+    },
+    favorites: {
+      type: new GraphQLList(GameSchema),
+      resolve(parent, args) {
+        return [];
+      }
     }
   })
 });

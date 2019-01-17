@@ -9,11 +9,24 @@ const app = express();
 
 const { PORT, DB_URL } = require('./config');
 const unprotectedGraphqlSchema = require('./unprotected_graphql_schema/graphql');
+const protectedGraphqlSchema = require('./protected_graphql_schema/graphql');
+const { validateJWTMiddleware } = require('./protected_graphql_schema/valdateJWT');
 
 app.use(cors());
 app.use(express.json());
 
-app.use('/graphql/protected', /* AUTHENTACTION HERE */(req, res, next) => next());
+app.use('/graphql/protected', validateJWTMiddleware, graphqlHTTP(req => ({
+  schema: protectedGraphqlSchema,
+  graphiql: true,
+  formatError(err) {
+    console.error(err);
+    return {
+      message: err.message,
+      locations: err.locations,
+      path: err.path
+    };
+  }
+})));
 
 app.use('/graphql/unprotected', graphqlHTTP(req => ({
   schema: unprotectedGraphqlSchema,

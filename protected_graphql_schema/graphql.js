@@ -22,37 +22,19 @@ const RootQuery = new GraphQLObjectType({
   fields: () => ({
     user: {
       type: UserType,
-      args: {id: {type: GraphQLID}},
-      resolve (parent, args) {
-        return User.findById(args.id);
-      }
-    },
-    game: {
-      type: GameType,
-      args: {gameId: {type: GraphQLID}},
-      resolve (parent, args) {
-        return Game.findById(args.gameId);
-      }
-    },
-    users: {
-      type: new GraphQLList(UserType),
-      resolve (parent, args) {
-        return User.find();
-      }
-    },
-    games: {
-      type: new GraphQLList(GameType),
-      resolve (parent, args) {
-        return Game.find();
-      }
-    },
-    question: {
-      type: new GraphQLList(QuestionType),
-      args: {
-        gameId: {type: GraphQLID}
-      },
-      resolve(parent, args){
-        return ['Hi'];
+      args: {},
+      resolve (parent, args, context) {
+        const { userId } = context;
+        return User.findById(userId)
+          .then(userData => {
+            if (!userData) {
+              return Promise.reject(new Error('User ID from jsonwebtoken does not exist.'));
+            }
+            return userData;
+          })
+          .catch(err => {
+            throw err;
+          });
       }
     }
   })
