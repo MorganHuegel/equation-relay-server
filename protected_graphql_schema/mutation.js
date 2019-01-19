@@ -18,19 +18,23 @@ const MutationType = new GraphQLObjectType({
   name: 'Mutation',
   fields: () => ({
     createGame: {
-      type: GraphQLString,
+      type: GameType,
       args: {
-        title: {type: GraphQLString}
+        title: {type: GraphQLString},
+        description: {type: GraphQLString}
       },
       resolve(parent, args, context) {
         //context is the request object
-        const { username, userId } = context;
-        
-        return 'response';
-        // let newQuestions = args.questions.map(question => {
-        //   console.log(question);
-        // });
-        // Game.save();
+        const { userId } = context;
+        const { title, description } = args;
+
+        return Game.create({ userId, title, description })
+          .then(gameInfo => {
+            return gameInfo;
+          })
+          .catch(err => {
+            throw err;
+          });
       }
     }
   })
