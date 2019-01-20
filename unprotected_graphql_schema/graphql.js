@@ -27,19 +27,32 @@ const RootQuery = new GraphQLObjectType({
         return User.findById(args.id);
       }
     },
+
     game: {
       type: GameType,
       args: {gameId: {type: GraphQLID}},
       resolve (parent, args) {
-        return Game.findById(args.gameId);
+        if (!args.gameId) {
+          throw new Error('Must provide a game ID to fetch game data.');
+        }
+
+        return Game.findById(args.gameId)
+          .then(gameData => {
+            return gameData;
+          })
+          .catch(err => {
+            throw err;
+          });
       }
     },
+
     users: {
       type: new GraphQLList(UserType),
       resolve (parent, args) {
         return User.find();
       }
     },
+    
     games: {
       type: new GraphQLList(GameType),
       resolve (parent, args) {
