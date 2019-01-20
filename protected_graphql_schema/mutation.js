@@ -26,7 +26,10 @@ const MutationType = new GraphQLObjectType({
       resolve(parent, args, context) {
         //context is the request object
         const { userId } = context;
-        const { title, description } = args;
+        let { title, description } = args;
+        if (!description) {
+          description = 'No description';
+        }
 
         return Game.create({ userId, title, description })
           .then(gameInfo => {
