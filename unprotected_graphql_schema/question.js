@@ -22,6 +22,7 @@ const QuestionType = new GraphQLObjectType({
   fields: () => ({
     id: {type: GraphQLID},
     gameId: {type: GraphQLID},
+    setNumber: {type: GraphQLInt},
     equation1: {type: EquationType},
     equation2: {type: EquationType},
     equation3: {type: EquationType},

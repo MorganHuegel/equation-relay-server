@@ -3,6 +3,7 @@
 const mongoose = require('mongoose');
 
 const questionSchema = new mongoose.Schema({
+  setNumber: {type: Number, required: true},
   gameId: {type: String, required: true},
   equation1: {
     image: {type: Boolean, default: false},
