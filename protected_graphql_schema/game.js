@@ -8,7 +8,7 @@ const {
   GraphQLList
 } = require('graphql');
 
-const QuestionSchema = require('./question');
+const { QuestionType } = require('./question');
 const Question = require('../models/question');
 
 const GameType = new GraphQLObjectType({
@@ -20,7 +20,7 @@ const GameType = new GraphQLObjectType({
     userId: {type: GraphQLID},
     playCount: {type: GraphQLInt},
     questions: {
-      type: new GraphQLList(QuestionSchema),
+      type: new GraphQLList(QuestionType),
       resolve(parent, args){
         return Question.find({gameId: parent.id});
       }
