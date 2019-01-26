@@ -24,6 +24,12 @@ const GameType = new GraphQLObjectType({
       resolve(parent, args){
         return Question.find({gameId: parent.id});
       }
+    },
+    numOfQuestions: {
+      type: GraphQLInt,
+      resolve(parent, args) {
+        return Question.count({gameId: parent.id});
+      }
     }
   })
 });
