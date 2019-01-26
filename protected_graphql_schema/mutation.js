@@ -58,6 +58,23 @@ const MutationType = new GraphQLObjectType({
             throw err;
           });
       }
+    },
+
+    createQuestion: {
+      type: QuestionType,
+      args: {
+        questionObject: {type: QuestionInput}
+      },
+      resolve(parents, args, context) {
+        return Question.create(args.questionObject)
+          .then(newQuestion => {
+            console.log('New Question: ', newQuestion);
+            return newQuestion;
+          })
+          .catch(err => {
+            throw err;
+          });
+      }
     }
   })
 });
