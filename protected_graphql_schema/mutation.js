@@ -50,7 +50,15 @@ const MutationType = new GraphQLObjectType({
         questionObject: {type: QuestionInput}
       },
       resolve(parents, args, context) {
-        return Question.findByIdAndUpdate(args.questionId, args.questionObject, {new: true})
+        const userIdFromToken = context.userId;
+        return Game.findOne({userId: userIdFromToken, _id: args.gameId})
+          .then(validGame => {
+            if (validGame) {
+              return Question.findByIdAndUpdate(args.questionId, args.questionObject, {new: true});
+            } else {
+              return Promise.reject(new Error(`Game with id ${args.gameId} for user ${userIdFromToken} does not exist.`));
+            }
+          })
           .then(updatedQuestion => {
             return updatedQuestion;
           })
@@ -68,8 +76,34 @@ const MutationType = new GraphQLObjectType({
       resolve(parents, args, context) {
         return Question.create(args.questionObject)
           .then(newQuestion => {
-            console.log('New Question: ', newQuestion);
             return newQuestion;
+          })
+          .catch(err => {
+            throw err;
+          });
+      }
+    },
+
+    deleteGame: {
+      type: GraphQLString,
+      args: {
+        gameId: {type: GraphQLID}
+      },
+      resolve(parents, args, context){
+        const userIdFromToken = context.userId;
+        return Game.findOne({userId: userIdFromToken, _id: args.gameId})
+          .then(validGame => {
+            if (validGame) {
+              return Game.findByIdAndDelete(args.gameId);
+            } else {
+              return Promise.reject(new Error(`Game with id ${args.gameId} for user ${userIdFromToken} does not exist.`));
+            }
+          })
+          .then(deletedQuestion => {
+            if (!deletedQuestion) {
+              return Promise.reject(new Error(`Game with ID ${args.gameId} was not deleted.`));
+            }
+            return 'Successfully deleted Game ' + args.gameId;
           })
           .catch(err => {
             throw err;
