@@ -6,7 +6,8 @@ const gameSchema = new mongoose.Schema({
   title: {type: String, required: true},
   description: {type: String, default: 'No description...'},
   userId: {type: String, required: true},
-  questions: {type: [String], default: []},
+  questions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Question', default: [] }],
+  //questions: {type: [String], default: [], ref: 'Question'},
   playCount: {type: Number, default: 0}
 });
 
