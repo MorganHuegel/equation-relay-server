@@ -15,6 +15,7 @@ const { QuestionType, QuestionInput } = require('./question');
 const Game = require('../models/game');
 const User = require('../models/user');
 const Question = require('../models/question');
+const GameSession = require('../models/gameSession');
 
 const MutationType = new GraphQLObjectType({
   name: 'Mutation',
@@ -136,6 +137,29 @@ const MutationType = new GraphQLObjectType({
           })
           .then(() => {
             return 'Successfully deleted Game ' + args.gameId;
+          })
+          .catch(err => {
+            throw err;
+          });
+      }
+    },
+
+    startGameSession: {
+      type: GraphQLString,
+      args: {
+        gameId: {type: GraphQLID}
+      },
+      resolve(parents, args, context) {
+        const userIdFromToken = context.userId;
+        const sessionCode = 'AAAAAA'; // TO_DO: GENERATE RANDOME SESSION CODE HERE
+
+        return GameSession.create({
+          leader: userIdFromToken,
+          sessionCode: sessionCode,
+          gameId: args.gameId
+        })
+          .then(newGameSession => {
+            return newGameSession.sessionCode;
           })
           .catch(err => {
             throw err;
