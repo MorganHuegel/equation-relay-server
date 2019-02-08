@@ -151,6 +151,7 @@ const MutationType = new GraphQLObjectType({
       },
       resolve(parents, args, context) {
         const userIdFromToken = context.userId;
+        //const sessionCode = Number.toString(Math.random())//48-57 && 65-90
         const sessionCode = 'AAAAAA'; // TO_DO: GENERATE RANDOME SESSION CODE HERE
 
         return GameSession.create({
