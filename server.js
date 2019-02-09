@@ -10,7 +10,7 @@ const server = require('http').createServer(app); // socket.io requires an http 
 const io = require('socket.io')(server);
 
 const { PORT, DB_URL, CLIENT_ORIGIN } = require('./config');
-const { socketMain } = require('./sockets/socketMain');
+const { socketConnect } = require('./sockets/socketMain');
 const unprotectedGraphqlSchema = require('./unprotected_graphql_schema/graphql');
 const protectedGraphqlSchema = require('./protected_graphql_schema/graphql');
 const { validateJWTMiddleware } = require('./protected_graphql_schema/valdateJWT');
@@ -19,7 +19,7 @@ const { gameSessionRouter } = require('./routes/gameSessionRouter');
 app.use(cors(CLIENT_ORIGIN));
 app.use(express.json());
 
-io.on('connection', socketMain);
+io.on('connection', socketConnect);
 
 app.use('/checkGameSession', gameSessionRouter);
 
