@@ -13,7 +13,7 @@ exports.playerJoinEvent = function (socket, username) {
       if (!updatedGame) {
         socket.nsp.to(socket.id).emit('error', 'Could not join game');
       } else {
-        socket.nsp.to(sessionCode).emit('playerJoin', updatedGame.playerList);
+        socket.nsp.to(sessionCode).emit('playerJoin', updatedGame);
       }
     })
     .catch(err => {
