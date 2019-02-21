@@ -8,7 +8,17 @@ exports.playerJoinEvent = function (socket, username) {
 
   const sessionCode = socket.handshake.query.sessionCode;
 
-  return GameSession.findOneAndUpdate({sessionCode}, {$push: {playerList : newPlayer}}, {new: true})
+  //Makes sure player handle is unique
+  return GameSession.findOne({sessionCode})
+    .then(sessionData => {
+      if (!sessionData) {
+        return Promise.reject(new Error(`Session ${sessionCode} does not exist`));
+      } else if (sessionData.playerList.find(player => player.handle === username)) {
+        socket.nsp.to(socket.id).emit('uniqueUsernameError', `The username ${username} is already taken. Choose another!`);
+      } else {
+        return GameSession.findOneAndUpdate({sessionCode}, {$push: {playerList : newPlayer}}, {new: true});
+      }
+    })
     .then(updatedGame => {
       if (!updatedGame) {
         socket.nsp.to(socket.id).emit('error', 'Could not join game');

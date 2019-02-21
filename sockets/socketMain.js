@@ -7,9 +7,6 @@ function socketConnect(socket){
   console.log('USER JOINED', ' SESSION CODE: ', sessionCode, ' SOCKET ID: ', socket.id);
   socket.join(`${sessionCode}`);
 
-  // WORKING EXAMPLE OF EMITTING EVENTS
-  //socket.broadcast.to(sessionCode).emit('testEvent', 'testEvent');
-
   socket.on('playerJoin', (username) => playerJoinEvent(socket, username));
   socket.on('startGame', () => startGameEvent(socket, sessionCode));
   socket.on('disconnect', () => disconnectEvent(socket));
