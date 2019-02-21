@@ -1,6 +1,6 @@
 const { disconnectEvent } = require('./disconnectEvent');
 const { playerJoinEvent } = require('./playerJoinEvent');
-const { startGameEvent } = require('./startGameEvent');
+const { shuffleTeamsEvent } = require('./shuffleTeamsEvent');
 
 function socketConnect(socket){
   const sessionCode = socket.handshake.query.sessionCode;
@@ -8,7 +8,7 @@ function socketConnect(socket){
   socket.join(`${sessionCode}`);
 
   socket.on('playerJoin', (username) => playerJoinEvent(socket, username));
-  socket.on('startGame', () => startGameEvent(socket, sessionCode));
+  socket.on('shuffleTeams', () => shuffleTeamsEvent(socket, sessionCode));
   socket.on('disconnect', () => disconnectEvent(socket));
 }
 

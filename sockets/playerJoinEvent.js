@@ -21,7 +21,7 @@ exports.playerJoinEvent = function (socket, username) {
     })
     .then(updatedGame => {
       if (!updatedGame) {
-        socket.nsp.to(socket.id).emit('error', 'Could not join game');
+        return Promise.reject(new Error('Could not join game'));
       } else {
         socket.nsp.to(sessionCode).emit('playerJoin', updatedGame);
       }

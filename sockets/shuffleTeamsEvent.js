@@ -77,7 +77,7 @@ function createTeamOverFive (playerList) {
 
 
 
-exports.startGameEvent = function(socket, sessionCode){
+exports.shuffleTeamsEvent = function(socket, sessionCode){
   return GameSession.findOne({sessionCode})
     .then(gameData => {
       if (!gameData) {
@@ -101,7 +101,7 @@ exports.startGameEvent = function(socket, sessionCode){
       }
     })
     .then(newGameSession => {
-      socket.nsp.to(sessionCode).emit('startGame', newGameSession);
+      socket.nsp.to(sessionCode).emit('shuffleTeams', newGameSession);
     })
     .catch(err => {
       socket.nsp.to(socket.id).emit('error', err.message);
