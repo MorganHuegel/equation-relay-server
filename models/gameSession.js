@@ -9,7 +9,8 @@ const gameSessionSchema = new mongoose.Schema({
   gameId: { type: mongoose.SchemaTypes.ObjectId, ref: 'Game', required: true },
   playerList: [ { type: playerSchema, default: [] } ],
   teamList: [ { type: teamSchema, default: [] } ],
-  startedGame: { type: Boolean, default: false }
+  startedGame: { type: Boolean, default: false },
+  endedGame: { type: Boolean, default: false }
 });
 
 module.exports = new mongoose.model('GameSession', gameSessionSchema);
