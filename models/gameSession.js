@@ -8,7 +8,8 @@ const gameSessionSchema = new mongoose.Schema({
   sessionCode: { type: String, required: true, unique: true },
   gameId: { type: mongoose.SchemaTypes.ObjectId, ref: 'Game', required: true },
   playerList: [ { type: playerSchema, default: [] } ],
-  teamList: [ { type: teamSchema, default: [] } ]
+  teamList: [ { type: teamSchema, default: [] } ],
+  startedGame: { type: Boolean, default: false }
 });
 
 module.exports = new mongoose.model('GameSession', gameSessionSchema);
