@@ -11,6 +11,7 @@ const {
 const EquationType = new GraphQLObjectType({
   name: 'Equation',
   fields: () => ({
+    id: {type: GraphQLID},
     image: {type: GraphQLBoolean},
     equation: {type: GraphQLString},
     answer: {type: GraphQLInt}

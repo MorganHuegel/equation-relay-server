@@ -4,7 +4,9 @@ const {
   GraphQLSchema,
   GraphQLObjectType,
   GraphQLID,
-  GraphQLList
+  GraphQLList,
+  GraphQLInt,
+  GraphQLString
 } = require('graphql');
 
 const User = require('../models/user');
@@ -59,13 +61,21 @@ const RootQuery = new GraphQLObjectType({
         return Game.find();
       }
     },
+
     question: {
-      type: new GraphQLList(QuestionType),
+      type: QuestionType,
       args: {
-        gameId: {type: GraphQLID}
+        gameId: { type: GraphQLString },
+        questionIndex: { type: GraphQLInt }
       },
       resolve(parent, args){
-        return ['Hi'];
+        return Game.findById(args.gameId).populate('questions')
+          .then(gameData => {
+            return gameData.questions[args.questionIndex];
+          })
+          .catch(err => {
+            throw err;
+          });
       }
     }
   })
