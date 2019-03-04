@@ -18,7 +18,7 @@ function socketConnect (socket) {
   socket.on('startGame', () => startGameEvent(socket, sessionCode));
   socket.on('nextQuestion', ({teamId, playerId}) => nextQuestionEvent(socket, sessionCode, teamId, playerId));
   socket.on('wrongAnswer', ({teamId, playerId}) => wrongAnswerEvent(socket, sessionCode, teamId, playerId));
-  socket.on('correctAnswer', (teamId) => correctAnswerEvent(socket, sessionCode, teamId));
+  socket.on('correctAnswer', ({teamId, playerId}) => correctAnswerEvent(socket, sessionCode, teamId, playerId));
   socket.on('teamScored', ({teamId, playerId, pointValue}) => teamScoredEvent(socket, sessionCode, teamId, playerId, pointValue));
   socket.on('endGame', () => endGameEvent(socket, sessionCode));
   socket.on('disconnect', () => disconnectEvent(socket));

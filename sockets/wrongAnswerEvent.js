@@ -3,7 +3,7 @@ const GameSession = require('../models/gameSession');
 exports.wrongAnswerEvent = function (socket, sessionCode, teamId, playerId) {
   return GameSession.findOne({sessionCode})
     .then(gameData => {
-      const team = gameData = gameData.teamList.find(team => team._id.toString() === teamId);
+      const team = gameData.teamList.find(team => team._id.toString() === teamId);
 
       team.players.forEach(player => {
         if (player._id.toString() === playerId) {
