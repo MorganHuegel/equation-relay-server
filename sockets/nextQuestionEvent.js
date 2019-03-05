@@ -19,8 +19,15 @@ exports.nextQuestionEvent = function (socket, sessionCode, teamId, playerId) {
         return false;
       } else {
         const team = teamList[isFirstPlayerIndex];
+        // Update question number for that team
         team.currentQuestion++;
-        
+        // Reset player properties for guessing
+        team.players.forEach(player => {
+          player.alreadyGuessed = false;
+          player.correctGuess = false;
+          player.guessingForPoints = false;
+        });
+        // Randomly assign new question indexes
         let questionIndexOptions = [];
         const numOfPlayers = team.players.length;
         for (let i = 0; i < numOfPlayers; i++) {
