@@ -5,7 +5,8 @@ const playerSchema = mongoose.Schema({
   captain: { type: Boolean, default: false },
   alreadyGuessed: { type: Boolean, default: false },
   correctGuess: { type: Boolean, default: false },
-  assignedEquationIndex: { type: Number, default: 0 }
+  assignedEquationIndex: { type: Number, default: 0 },
+  guessingForPoints: { type: Boolean, default: false }
 });
 
 module.exports = playerSchema;
