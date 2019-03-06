@@ -6,6 +6,7 @@ exports.teamScoredEvent = function (socket, sessionCode, teamId, pointValue) {
       //Find the team that answered, update with point value
       const teamData = gameData.teamList.find(team => team._id.toString() === teamId);
       teamData.points += pointValue;
+      teamData.players.forEach(player => player.guessingForPoints = false);
       return GameSession.findOneAndUpdate({sessionCode, 'teamList._id': teamId}, {$set: {'teamList.$': teamData}}, {new: true});
     })
     .then(updatedGameData => {

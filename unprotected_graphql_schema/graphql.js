@@ -71,6 +71,9 @@ const RootQuery = new GraphQLObjectType({
       resolve(parent, args){
         return Game.findById(args.gameId).populate('questions')
           .then(gameData => {
+            if (gameData.questions.length <= args.questionIndex) {
+              return null;
+            }
             return gameData.questions[args.questionIndex];
           })
           .catch(err => {
