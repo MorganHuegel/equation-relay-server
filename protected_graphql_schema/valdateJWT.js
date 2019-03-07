@@ -6,7 +6,6 @@ const { JWT_SECRET } = require('../config');
 
 function validateJWTMiddleware (req, res, next) {
   const token = req.headers.authorization;
-  console.log('TOKEN', token);
   jwt.verify(token, JWT_SECRET, (err, payload) => {
     if (err) {
       return res.json({data: {errors: [err]}});
@@ -16,7 +15,6 @@ function validateJWTMiddleware (req, res, next) {
     } else {
       req.username = payload.username;
       req.userId = payload.id;
-      console.log('IN ELSE BLOCK, USERNAME:', req.username, req.userId);
       return next();
     }
   });

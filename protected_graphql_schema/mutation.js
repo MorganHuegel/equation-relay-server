@@ -152,7 +152,6 @@ const MutationType = new GraphQLObjectType({
       resolve(parents, args, context) {
         const userIdFromToken = context.userId;
         const sessionCode =   (Math.random() * 10).toFixed(2).toString().replace('.', '');
-        console.log('USER ID FROM TOKEN', userIdFromToken);
 
         return GameSession.create({
           leader: userIdFromToken,
