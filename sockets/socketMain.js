@@ -8,6 +8,7 @@ const { teamScoredEvent } = require('./teamScoredEvent');
 const { wrongAnswerEvent } = require('./wrongAnswerEvent');
 const { correctAnswerEvent } = require('./correctAnswerEvent');
 const { assignGuesserEvent } = require('./assignGuesserEvent');
+const { removePlayer } = require('./removePlayerEvent');
 
 function socketConnect (socket) {
   const sessionCode = socket.handshake.query.sessionCode;
@@ -23,6 +24,7 @@ function socketConnect (socket) {
   socket.on('assignGuesser', (teamId) => assignGuesserEvent(socket, sessionCode, teamId));
   socket.on('teamScored', ({teamId, pointValue}) => teamScoredEvent(socket, sessionCode, teamId, pointValue));
   socket.on('endGame', () => endGameEvent(socket, sessionCode));
+  socket.on('removePlayer', (playerId) => removePlayer(socket, playerId));
   socket.on('disconnect', () => disconnectEvent(socket));
 }
 
