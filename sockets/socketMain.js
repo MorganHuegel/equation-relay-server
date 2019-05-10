@@ -15,7 +15,7 @@ function socketConnect (socket) {
   console.log('USER JOINED', ' SESSION CODE: ', sessionCode, ' SOCKET ID: ', socket.id);
   socket.join(`${sessionCode}`);
 
-  socket.on('playerJoin', (username) => playerJoinEvent(socket, username));
+  socket.on('playerJoin', (username) => playerJoinEvent(socket, username, sessionCode));
   socket.on('shuffleTeams', () => shuffleTeamsEvent(socket, sessionCode));
   socket.on('startGame', () => startGameEvent(socket, sessionCode));
   socket.on('nextQuestion', ({teamId, playerId}) => nextQuestionEvent(socket, sessionCode, teamId, playerId));
@@ -24,7 +24,7 @@ function socketConnect (socket) {
   socket.on('assignGuesser', (teamId) => assignGuesserEvent(socket, sessionCode, teamId));
   socket.on('teamScored', ({teamId, pointValue}) => teamScoredEvent(socket, sessionCode, teamId, pointValue));
   socket.on('endGame', () => endGameEvent(socket, sessionCode));
-  socket.on('removePlayer', (playerId) => removePlayer(socket, playerId));
+  socket.on('removePlayer', (playerId) => removePlayer(socket, playerId, sessionCode));
   socket.on('disconnect', () => disconnectEvent(socket));
 }
 

@@ -1,7 +1,6 @@
 const GameSession = require('../models/gameSession');
 
-exports.removePlayer = function (socket, playerId) {
-  const sessionCode = socket.handshake.query.sessionCode;
+exports.removePlayer = function (socket, playerId, sessionCode) {
   return GameSession.findOne({sessionCode})
     .then(sessionData => {
       const newPlayerList = sessionData.playerList.filter(player => player._id.toString() !== playerId);
