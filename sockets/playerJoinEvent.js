@@ -1,11 +1,9 @@
 const GameSession = require('../models/gameSession');
 
-exports.playerJoinEvent = function (socket, username) {
+exports.playerJoinEvent = function (socket, username, sessionCode) {
   const newPlayer = {
     handle: username
   };
-
-  const sessionCode = socket.handshake.query.sessionCode;
 
   //Makes sure player handle is unique and game has not started live
   return GameSession.findOne({sessionCode})

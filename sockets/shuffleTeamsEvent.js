@@ -1,9 +1,18 @@
 const GameSession = require('../models/gameSession');
+const randAdj = require('./randomAdjectives.json');
+const randAnimals = require('./randomAnimals.json');
+
+function generateTeamName(){
+  const adjIndex = Math.floor(Math.random()*randAdj.length);
+  const animalIndex = Math.floor(Math.random()*randAnimals.length);
+  return randAdj[adjIndex] + ' ' + randAnimals[animalIndex];
+}
 
 function createTeamListUnderFour(playerList){
+  const teamName = generateTeamName();
   return [
     {
-      teamName: 'TEAM 1',
+      teamName,
       players: playerList
     }
   ];
@@ -21,11 +30,11 @@ function createTeamListFive(playerList){
 
   let teamList = [
     {
-      teamName: 'TEAM 1', // <--- TO-DO Randomly generate this
+      teamName: generateTeamName(),
       players: shuffledPlayers.splice(0, 2)
     },
     {
-      teamName: 'TEAM 2',
+      teamName: generateTeamName(),
       players: shuffledPlayers.splice(0, 3)
     }
   ];
@@ -58,7 +67,7 @@ function createTeamOverFive (playerList) {
   for (let i = 0; i < teamsOfThree; i++) {
     let players = shuffledPlayers.splice(0, 3);
     teamList = [...teamList, {
-      teamName: `TEAM OF THREE ${i + 1}`,
+      teamName: generateTeamName(),
       players: players
     }];
   }
@@ -67,7 +76,7 @@ function createTeamOverFive (playerList) {
   for (let j = 0; j < numOfTeams - teamsOfThree; j++) {
     let players = shuffledPlayers.splice(0, 4);
     teamList = [...teamList, {
-      teamName: `TEAM OF FOUR ${j + 1}`,
+      teamName: generateTeamName(),
       players: players
     }];
   }
