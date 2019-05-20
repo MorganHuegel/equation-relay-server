@@ -24,7 +24,7 @@ app.use(express.json());
 io.on('connection', socketConnect);
 
 app.use('/checkGameSession', gameSessionRouter);
-app.use('/checkAnswer', wolframRouter);
+app.use('/checkAnswer', validateJWTMiddleware, wolframRouter);
 
 app.use('/graphql/protected', validateJWTMiddleware, graphqlHTTP(req => ({
   schema: protectedGraphqlSchema,
