@@ -24,7 +24,7 @@ wolframRouter.post('/', (req, res) => {
         return res.status(400).json({correct: false, incorrect: false, message: 'Error occured with Wolfram check.'});
 
       } else if (!queryResult.success) {
-        return res.json({correct: false, incorrect: false, message: 'Wolfram could not validate this answer.'});
+        return res.json({correct: false, incorrect: false, message: 'Could not validate answer.'});
 
       } else if (queryResult.numpods <= 0) {
         return res.json({correct: false, incorrect: false, message: 'Wolfram response says successful, but there are no pods in response.'});
@@ -37,7 +37,7 @@ wolframRouter.post('/', (req, res) => {
         });
 
         if (!resultPod && !decimalPod) {
-          return res.json({correct: false, incorrect: false, message: `Wolfram could not validate this answer.`});
+          return res.json({correct: false, incorrect: false, message: `Could not validate answer.`});
         }
 
         const wolframAnswer = resultPod ? 
