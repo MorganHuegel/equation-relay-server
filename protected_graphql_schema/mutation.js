@@ -117,8 +117,8 @@ const MutationType = new GraphQLObjectType({
     deleteQuestion: {
       type: GameType,
       args: {
-        gameId: {type: GraphQLID},
-        questionId: {type: GraphQLID}
+        gameId: {type: GraphQLString},
+        questionId: {type: GraphQLString}
       },
       resolve(parents, args, context){
         return Promise.all([
@@ -126,6 +126,9 @@ const MutationType = new GraphQLObjectType({
           Question.findByIdAndDelete(args.questionId)
         ])
           .then( ([newGameData, deletedQuestionData]) => {
+            if (!newGameData || !deletedQuestionData) {
+              return Promise.reject(new Error('Did not delete, yo!'));
+            }
             return newGameData;
           })
           .catch(err => {
