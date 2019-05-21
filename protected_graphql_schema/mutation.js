@@ -114,6 +114,29 @@ const MutationType = new GraphQLObjectType({
       }
     },
 
+    deleteQuestion: {
+      type: GameType,
+      args: {
+        gameId: {type: GraphQLString},
+        questionId: {type: GraphQLString}
+      },
+      resolve(parents, args, context){
+        return Promise.all([
+          Game.findOneAndUpdate({_id: args.gameId}, {$pull: {questions: {id: args.questionId}}}, {new: true}),
+          Question.findByIdAndDelete(args.questionId)
+        ])
+          .then( ([newGameData, deletedQuestionData]) => {
+            if (!newGameData || !deletedQuestionData) {
+              return Promise.reject(new Error('Did not delete, yo!'));
+            }
+            return newGameData;
+          })
+          .catch(err => {
+            throw err;
+          });
+      }
+    },
+
     deleteGame: {
       type: GraphQLString,
       args: {
