@@ -1,4 +1,4 @@
-const GameSession = require('../models/gameSession');
+const { GameSession } = require('../models/gameSession');
 
 exports.endGameEvent = function (socket, sessionCode) {
   return GameSession.findOneAndDelete({sessionCode})

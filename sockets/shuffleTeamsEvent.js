@@ -1,4 +1,4 @@
-const GameSession = require('../models/gameSession');
+const { GameSession } = require('../models/gameSession');
 const randAdj = require('./randomAdjectives.json');
 const randAnimals = require('./randomAnimals.json');
 

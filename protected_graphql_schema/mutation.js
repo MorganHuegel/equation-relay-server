@@ -15,7 +15,7 @@ const { QuestionType, QuestionInput } = require('./question');
 const Game = require('../models/game');
 const User = require('../models/user');
 const Question = require('../models/question');
-const GameSession = require('../models/gameSession');
+const { GameSession, generateSessionCode } = require('../models/gameSession');
 
 const MutationType = new GraphQLObjectType({
   name: 'Mutation',
@@ -174,17 +174,21 @@ const MutationType = new GraphQLObjectType({
       },
       resolve(parents, args, context) {
         const userIdFromToken = context.userId;
-        const sessionCode =   (Math.random() * 10).toFixed(2).toString().replace('.', '');
-
-        return GameSession.create({
-          leader: userIdFromToken,
-          sessionCode: sessionCode,
-          gameId: args.gameId
-        })
+        return generateSessionCode()
+          .then(sessionCode => {
+            return GameSession.create({
+              leader: userIdFromToken,
+              sessionCode: sessionCode,
+              gameId: args.gameId
+            });
+          })
           .then(newGameSession => {
             return newGameSession.sessionCode;
           })
           .catch(err => {
+            if (err.code === 11000) {
+              throw new Error('Duplicate Session Code Error');
+            }
             throw err;
           });
       }

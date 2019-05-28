@@ -2,7 +2,7 @@ const express = require('express');
 
 const gameSessionRouter = express.Router();
 
-const GameSession = require('../models/gameSession');
+const { GameSession } = require('../models/gameSession');
 
 gameSessionRouter.get('/:sessionCode', (req, res) => {
   const sessionCode = req.params.sessionCode;

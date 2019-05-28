@@ -13,4 +13,29 @@ const gameSessionSchema = new mongoose.Schema({
   endedGame: { type: Boolean, default: false }
 });
 
-module.exports = new mongoose.model('GameSession', gameSessionSchema);
+const GameSession = new mongoose.model('GameSession', gameSessionSchema);
+
+function generateSessionCode (sessionCode = null) {
+  if (!sessionCode) {
+    sessionCode = (Math.random() * 10).toFixed(2).toString().replace('.', '');
+  } else {
+    sessionCode = (Number(sessionCode) + 1).toString();
+    while (sessionCode.length < 3) {
+      sessionCode = '0' + sessionCode;
+    }
+  }
+
+  return GameSession.findOne({sessionCode})
+    .then(result => {
+      if (result) {
+        return generateSessionCode(sessionCode);
+      } else {
+        return sessionCode;
+      }
+    })
+    .catch(err => {
+      throw err;
+    });
+}
+
+module.exports = { GameSession, generateSessionCode };

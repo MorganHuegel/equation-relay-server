@@ -1,4 +1,4 @@
-const GameSession = require('../models/gameSession');
+const { GameSession } = require('../models/gameSession');
 
 exports.teamScoredEvent = function (socket, sessionCode, teamId, pointValue) {
   return GameSession.findOne({sessionCode})
