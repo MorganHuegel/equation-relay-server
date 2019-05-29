@@ -1,4 +1,4 @@
-const GameSession = require('../models/gameSession');
+const { GameSession } = require('../models/gameSession');
 
 exports.playerJoinEvent = function (socket, username, sessionCode) {
   const newPlayer = {

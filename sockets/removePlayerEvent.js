@@ -1,4 +1,4 @@
-const GameSession = require('../models/gameSession');
+const { GameSession } = require('../models/gameSession');
 
 exports.removePlayer = function (socket, playerId, sessionCode) {
   return GameSession.findOne({sessionCode})

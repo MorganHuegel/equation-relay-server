@@ -1,4 +1,4 @@
-const GameSession = require('../models/gameSession');
+const { GameSession } = require('../models/gameSession');
 
 exports.startGameEvent = function (socket, sessionCode) {
   return GameSession.findOneAndUpdate({sessionCode}, {$set: {startedGame: true}}, {new: true})

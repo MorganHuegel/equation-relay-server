@@ -6,7 +6,7 @@ const { DB_URL } = require('../config');
 const User = require('../models/user');
 const Game = require('../models/game');
 const Question = require('../models/question');
-const GameSession = require('../models/gameSession');
+const { GameSession } = require('../models/gameSession');
 
 const DummyUsers = require('./dummy-users.json');
 const DummyGames = require('./dummy-games.json');
