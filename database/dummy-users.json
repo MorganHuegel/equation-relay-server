@@ -6,7 +6,8 @@
     "email": "bob@foo.com",
     "games": [
       "111111111111111111111110",
-      "111111111111111111111111"
+      "111111111111111111111111",
+      "111111111111111111111112"
     ],
     "favorites": []
   },
@@ -16,7 +17,7 @@
     "password": "$2a$08$4qxsAte.kCJSyyQYoUfB.uX3TSJmSfOFKDaRS.PV6sy79MLoJs5HK",
     "email": "sally@bar.com",
     "games": [
-      "111111111111111111111112"
+      "111111111111111111111113"
     ],
     "favorites": []
   }
